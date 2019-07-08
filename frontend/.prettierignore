@@ -1,0 +1,7 @@
+coverage
+node_modules
+package.json
+public
+build
+*.lock
+*.log

@@ -1,0 +1,34 @@
+# https://serverless.com/blog/serverless-api-gateway-domain/
+
+service:
+  name: ttw-auth
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'develop'}
+  region: us-east-1
+
+functions:
+  handler:
+    handler: index.handler
+    name: ${opt:stage, 'develop'}-${self:service:name}-authentication
+    memorySize: 128
+    timeout: 5
+    role: UserRole
+
+resources:
+  Resources:
+    UserRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: ${opt:stage, 'develop'}-${self:service:name}-role
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "lambda.amazonaws.com"
+                  - "edgelambda.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"

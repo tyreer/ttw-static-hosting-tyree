@@ -1,0 +1,25 @@
+{
+    ignoreFiles: [
+      './build/**',
+      './config/**',
+      './node_modules/**',
+      './public/**',
+      './scripts/**',
+    ],
+    extends: ['@stinkstudios/stylelint-config-react-app'],
+    rules: {
+      'plugin/no-unsupported-browser-features': [
+        true,
+        {
+          severity: 'warning',
+          ignore: [
+            'calc',
+            'css-animation',
+            'flexbox',
+            'transforms2d',
+            'viewport-units',
+          ],
+        },
+      ],
+    }
+}

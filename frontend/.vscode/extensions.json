@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "apollographql.vscode-apollo",
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "shinnn.stylelint",
+    "dbaeumer.vscode-eslint"
+  ],
+  "unwantedRecommendations": ["hookyqr.beautify", "dbaeumer.jshint"]
+}

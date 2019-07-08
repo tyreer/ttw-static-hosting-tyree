@@ -1,0 +1,12 @@
+{
+  "extends": "@stinkstudios/eslint-config-react-app",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": ["eslint-plugin-import-order-alphabetical"],
+  "rules": {
+    "import-order-alphabetical/order": "error"
+  }
+}

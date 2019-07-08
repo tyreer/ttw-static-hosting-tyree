@@ -1,0 +1,89 @@
+version: 2
+
+deploy_filters: &deploy_filters
+  filters:
+    branches:
+      only:
+        - develop
+
+defaults_node10: &defaults_node10
+  docker:
+    - image: circleci/node:10.15.0
+
+restore_cache_frontend: &restore_cache_frontend
+  key: frontend-cache-{{ .Branch }}-{{ checksum "frontend/package.json" }}
+
+save_cache_frontend: &save_cache_frontend
+  <<: *restore_cache_frontend
+  paths:
+    - frontend/node_modules
+    - "~/.cache/yarn"
+
+jobs:
+  infrastructure:
+    docker:
+      - image: stinkstudios/terraform-latest:2.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform
+          command: make terraform
+      - persist_to_workspace:
+          root: .
+          paths:
+            - infrastructure/.terraform/output.json
+  frontend-build:
+    <<: *defaults_node10
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *restore_cache_frontend
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install
+          command: yarn
+          working_directory: ./frontend
+      - run:
+          name: Lint
+          command: yarn lint
+          working_directory: ./frontend
+      - run:
+          name: Build
+          command: make frontend-build
+          working_directory: ./
+      - save_cache:
+          <<: *save_cache_frontend
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/build
+  frontend-deploy:
+    docker:
+      - image: stinkstudios/aws
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy
+          command: make frontend-deploy
+          working_directory: ./
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - infrastructure:
+          <<: *deploy_filters
+      - frontend-build:
+          requires:
+            - infrastructure
+          <<: *deploy_filters
+      - frontend-deploy:
+          requires:
+            - infrastructure
+            - frontend-build
+          <<: *deploy_filters
