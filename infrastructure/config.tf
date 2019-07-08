@@ -11,7 +11,7 @@ terraform {
 
   # * CONFIG TERRAFORM WORKSPACE
   backend "s3" {
-    bucket = "ttw-static-demo-terraform"
+    bucket = "tyree-new-terraform"
     key    = "terraform.tfstate"
     region = "eu-west-2"
   }
