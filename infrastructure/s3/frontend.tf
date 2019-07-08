@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend" {
-  bucket = "${terraform.workspace}-ttw-demo-frontend"
+  bucket = "${terraform.workspace}-wow-it-worked"
   acl    = "public-read"
 
   # * POLICY PERMISSIONS
@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "frontend" {
 		"Effect": "Allow",
 		"Principal": "*",
 		"Action": ["s3:GetObject"],
-		"Resource": ["arn:aws:s3:::${terraform.workspace}-ttw-demo-frontend/*"]
+		"Resource": ["arn:aws:s3:::${terraform.workspace}-wow-it-worked/*"]
 	}]
 }
 EOF
