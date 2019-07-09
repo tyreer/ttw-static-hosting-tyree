@@ -9,5 +9,7 @@
 }
 
 .root img {
+  padding: 20px;
+  border: 30px dotted hotpink;
   align-self: center;
 }
