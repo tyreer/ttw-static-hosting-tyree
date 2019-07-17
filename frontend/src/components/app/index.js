@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 const App = () => (
   <div className={styles.root}>
-  <h1>THANKS ALEX!</h1>
+  <h1>THANKS ALEX!!</h1>
     <img src={bottlecap} alt="win"/>
   </div>
 );
